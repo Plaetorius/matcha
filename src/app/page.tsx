@@ -1,21 +1,27 @@
 "use client";
 
-import { Button, Link } from "@nextui-org/react";
-import { FaRegSmile } from "react-icons/fa";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Home() {
+  const { data: session } = useSession();
+
+  if (!session) {
+    return (
+      <div>
+        <p>You are not signed in.</p>
+        <button onClick={() => signIn()}>
+          Sign in
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <h1 className="text-3xl">Hello app!</h1>
-      <Button
-        as={Link}
-        href="/members"
-        color="primary"
-        variant="bordered"
-        startContent={<FaRegSmile size={20} />}
-      >
-        Click me!
-      </Button>
+      <p>Welcome, {session.user?.name}!</p>
+      <button onClick={() => signOut()}>
+        Sign out
+      </button>
     </div>
   );
 }

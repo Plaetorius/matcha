@@ -2,6 +2,7 @@
 
 import { NextUIProvider } from "@nextui-org/react";
 import React, { ReactNode } from "react";
+import { SessionProvider } from "next-auth/react";
 
 export default function Providers({
 	children,
@@ -9,6 +10,10 @@ export default function Providers({
 		children: ReactNode,
 }) {
 	return (
-		<NextUIProvider>{children}</NextUIProvider>
+		<SessionProvider>
+			<NextUIProvider>
+				{children}
+			</NextUIProvider>
+		</SessionProvider>
 	)
 }
