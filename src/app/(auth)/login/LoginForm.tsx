@@ -12,6 +12,9 @@ import { GiPadlock } from 'react-icons/gi';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { loginSchema, LoginSchema } from '@/lib/schemas/LoginSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { signInUser, signOutUser } from '@/app/actions/authActions';
+import { toast } from "react-toastify";
 
 export default function LoginForm() {
 	const {
@@ -21,7 +24,24 @@ export default function LoginForm() {
 	} = useForm<LoginSchema>({
 		resolver: zodResolver(loginSchema),
 	});
-	const onSubmit = (data: LoginSchema) => { console.log(data) };
+
+	const router = useRouter();
+
+	const onSubmit = async (data: LoginSchema) => { 
+		const result = await signInUser(data);
+		console.log("result SignInUser::: ", result);
+		if (result.status === "success") {
+			router.push("/members");
+			router.refresh();
+		} else {
+			toast.error(result.error as string);
+		}
+	};
+
+	const tempSignOut = async () => {
+		const result = await signOutUser();
+		console.log("result SignOutUser::: ", result);
+	}
 
 	return (
 		<Card className='w-2/5 mx-auto'>
@@ -50,17 +70,19 @@ export default function LoginForm() {
 							errorMessage={
 								errors.email?.message as string
 							}
+							value={'test@example.com'} // TODO remove me
 						/>
 						<Input
 							defaultValue=''
 							label='Password'
 							variant='bordered'
-							type='password'
+							// type='password'
 							{...register("password")}
 							isInvalid={!!errors.password}
 							errorMessage={
 								errors.password?.message as string
 							}
+							value={'test1234'} // TODO remove me
 						/>
 						<Button
 							fullWidth
@@ -73,6 +95,9 @@ export default function LoginForm() {
 					</div>
 				</form>
 			</CardBody>
+			<Button onClick={tempSignOut}>
+					Sign Out
+			</Button>
 		</Card>
 	);
 }

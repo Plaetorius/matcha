@@ -8,3 +8,5 @@ export const loginSchema = z.object({
 })
 
 export type LoginSchema = z.infer<typeof loginSchema>
+
+// TODO video timing: 1:04:06
