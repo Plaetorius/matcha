@@ -59,6 +59,11 @@ export async function registerUser(data: RegisterSchema): Promise<ActionResult<U
 			}
 		})
 
+		await signIn('credentials', {
+			email: email,
+			password: password,
+			redirect: false,
+		});
 		return { status: 'success', data: user };
 	}	catch (error) {
 		return { status: "error", error: "Something went wrong" };

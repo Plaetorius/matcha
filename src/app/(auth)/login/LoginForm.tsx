@@ -33,15 +33,11 @@ export default function LoginForm() {
 		if (result.status === "success") {
 			router.push("/members");
 			router.refresh();
+			toast.success("Welcome back!");
 		} else {
 			toast.error(result.error as string);
 		}
 	};
-
-	const tempSignOut = async () => {
-		const result = await signOutUser();
-		console.log("result SignOutUser::: ", result);
-	}
 
 	return (
 		<Card className='w-2/5 mx-auto'>
@@ -95,9 +91,6 @@ export default function LoginForm() {
 					</div>
 				</form>
 			</CardBody>
-			<Button onClick={tempSignOut}>
-					Sign Out
-			</Button>
 		</Card>
 	);
 }

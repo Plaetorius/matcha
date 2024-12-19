@@ -4,8 +4,10 @@ import { registerUser } from "@/app/actions/authActions";
 import { registerSchema, RegisterSchema } from "@/lib/schemas/RegisterSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Card, CardBody, CardHeader, Input } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import { RegisterOptions, useForm } from "react-hook-form";
 import { GiPadlock } from "react-icons/gi";
+import { toast } from "react-toastify";
 
 export default function RegisterForm() {
 	const {
@@ -14,9 +16,10 @@ export default function RegisterForm() {
 		setError,
 		formState: { errors, isValid, isSubmitting },
 	} = useForm<RegisterSchema>({
-		// resolver: zodResolver(registerSchema),
 		mode: "onTouched",
 	});
+
+	const router = useRouter();
 
 	const onSubmit = async (
 		data: RegisterSchema
@@ -25,9 +28,11 @@ export default function RegisterForm() {
 
 
 		if (result.status === "success") {
-			console.log("User registered successfully!");
+			toast.success("Successfully registered!");
+			router.push("/members");
+			router.refresh();
 		} else {
-			console.log(result.error);
+			console.log("Error when registering");
 			if (Array.isArray(result.error)) {
 				result.error.forEach((e: any) => {
 					console.log("e::: ", e);
@@ -40,6 +45,7 @@ export default function RegisterForm() {
 			} else {
 				setError("root.serverError", { message: result.error });
 			}
+			toast.error("Error when trying to register.")
 		}
 	};
 

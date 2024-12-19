@@ -6,6 +6,5 @@ export default async function Home() {
 
   return (
     <UserSessionInfo session={session} />
-      
   );
 }

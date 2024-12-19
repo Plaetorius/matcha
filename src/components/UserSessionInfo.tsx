@@ -36,7 +36,7 @@ export default function UserSessionInfo(session: UserSessionInfoProps) {
         </div>
       ) : (
         <div>
-          Not Signed int
+          Not signed in
         </div>
       )}
 
