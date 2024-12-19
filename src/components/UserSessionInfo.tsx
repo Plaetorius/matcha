@@ -16,7 +16,7 @@ export default function UserSessionInfo(session: UserSessionInfoProps) {
       <h1 className="text-3xl">Hello App!</h1>
       <h3 className="text-2xl font-semibold">User session data:</h3>
 
-      { session ? (
+      { session.session ? (
         <div>
           <pre>
             {JSON.stringify(session, null, 2)}

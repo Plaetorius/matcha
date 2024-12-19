@@ -9,11 +9,11 @@ import {
 	Input
 } from "@nextui-org/react";
 import { GiPadlock } from 'react-icons/gi';
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { loginSchema, LoginSchema } from '@/lib/schemas/LoginSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { signInUser, signOutUser } from '@/app/actions/authActions';
+import { signInUser } from '@/app/actions/authActions';
 import { toast } from "react-toastify";
 
 export default function LoginForm() {
@@ -31,6 +31,8 @@ export default function LoginForm() {
 		const result = await signInUser(data);
 		console.log("result SignInUser::: ", result);
 		if (result.status === "success") {
+			const event = new Event("visibilitychange");
+			document.dispatchEvent(event);
 			router.push("/members");
 			router.refresh();
 			toast.success("Welcome back!");
