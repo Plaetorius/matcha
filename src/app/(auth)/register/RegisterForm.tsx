@@ -1,12 +1,11 @@
 "use client";
 
 import { registerUser } from "@/app/actions/authActions";
-import { signIn } from "@/auth";
-import { registerSchema, RegisterSchema } from "@/lib/schemas/RegisterSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { RegisterSchema } from "@/lib/schemas/RegisterSchema";
 import { Button, Card, CardBody, CardHeader, Input } from "@nextui-org/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { RegisterOptions, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { GiPadlock } from "react-icons/gi";
 import { toast } from "react-toastify";
 
@@ -29,7 +28,23 @@ export default function RegisterForm() {
 
 		if (result.status === "success") {
 			toast.success("Successfully registered!");
-			router.push("/members");
+			const { email, password } = data;
+			const result = await signIn("credentials", {
+				email: data.email,
+				password: data.password,
+				redirect: false,
+			});
+
+			if (result?.ok) {
+				const event = new Event("sessionUpdated");
+				document.dispatchEvent(event);
+				router.push("/members");
+				toast.success("Logged you in automagically!")
+			} else {
+				toast.error(result?.error as string);
+				router.push("/login");
+			}
+
 		} else {
 			console.log("Error when registering");
 			if (Array.isArray(result.error)) {

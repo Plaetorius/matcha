@@ -13,9 +13,8 @@ import { useForm } from "react-hook-form";
 import { loginSchema, LoginSchema } from '@/lib/schemas/LoginSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { signInUser } from '@/app/actions/authActions';
 import { toast } from "react-toastify";
-import { signIn } from '@/auth';
+import { signIn } from 'next-auth/react';
 
 export default function LoginForm() {
 	const {
@@ -29,15 +28,21 @@ export default function LoginForm() {
 	const router = useRouter();
 
 	const onSubmit = async (data: LoginSchema) => { 
-		const result = await signInUser(data);
+		const result = await signIn("credentials", {
+			email: data.email,
+			password: data.password,
+			redirect: false,
+		});
+
+
 		console.log("result SignInUser::: ", result);
-		if (result.status === "success") {
+		if (result?.ok) {
 			const event = new Event("sessionUpdated");
 			document.dispatchEvent(event);
 			router.push("/members");
 			toast.success("Welcome back!");
 		} else {
-			toast.error(result.error as string);
+			toast.error(result?.error as string);
 		}
 	};
 
