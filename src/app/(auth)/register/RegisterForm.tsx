@@ -39,6 +39,7 @@ export default function RegisterForm() {
 				const event = new Event("sessionUpdated");
 				document.dispatchEvent(event);
 				router.push("/members");
+				router.refresh();
 				toast.success("Logged you in automagically!")
 			} else {
 				toast.error(result?.error as string);

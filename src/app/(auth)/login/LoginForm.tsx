@@ -40,6 +40,7 @@ export default function LoginForm() {
 			const event = new Event("sessionUpdated");
 			document.dispatchEvent(event);
 			router.push("/members");
+			router.refresh();
 			toast.success("Welcome back!");
 		} else {
 			toast.error(result?.error as string);
