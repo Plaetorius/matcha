@@ -73,7 +73,6 @@ export default function LoginForm() {
 							errorMessage={
 								errors.email?.message as string
 							}
-							value={'test@example.com'} // TODO remove me
 						/>
 						<Input
 							defaultValue=''
@@ -85,7 +84,6 @@ export default function LoginForm() {
 							errorMessage={
 								errors.password?.message as string
 							}
-							value={'test1234'} // TODO remove me
 						/>
 						<Button
 							fullWidth
