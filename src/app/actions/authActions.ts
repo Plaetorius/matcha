@@ -5,7 +5,7 @@ import { registerSchema, RegisterSchema } from "@/lib/schemas/RegisterSchema";
 import { ActionResult } from "@/types";
 import { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { signOut } from "@/auth";
+import { auth, signOut } from "@/auth";
 
 export async function signOutUser() {
 	await signOut({ redirectTo: '/' });
@@ -52,4 +52,13 @@ export async function getUserByEmail(email: string) {
 
 export async function getUserById(id: string) {
 	return prisma.user.findUnique({ where: { id }});
+}
+
+export async function getAuthUserId() {
+	const session = await auth();
+	const userId = session?.user?.id;
+
+	if (!userId) throw new Error('Unauthorized');
+
+	return userId;
 }
