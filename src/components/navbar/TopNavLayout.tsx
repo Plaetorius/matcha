@@ -2,10 +2,6 @@
 
 import {
 	Button,
-	Dropdown,
-	DropdownItem,
-	DropdownMenu,
-	DropdownTrigger,
 	Navbar,
 	NavbarBrand,
 	NavbarContent,
@@ -15,6 +11,7 @@ import React from "react";
 import { GiSelfLove } from "react-icons/gi";
 import NavLink from "./NavLink";
 import { Session } from "next-auth";
+import UserMenu from "./UserMenu";
 
 type TopNavLayoutProps = {
 	session: Session | null;
@@ -63,16 +60,7 @@ export default function TopNavLayout(session: TopNavLayoutProps) {
 			</NavbarContent>
 			<NavbarContent justify="end">
 			{ session.session ? (
-				<Dropdown>
-					<DropdownTrigger>
-						<Button>Trigger</Button>
-					</DropdownTrigger>
-					<DropdownMenu>
-						<DropdownItem>
-							Salut
-						</DropdownItem>
-					</DropdownMenu>
-				</Dropdown>
+				<UserMenu user={session.session.user}/>
 			) : (
 				<>
 					<Button

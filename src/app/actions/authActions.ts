@@ -22,7 +22,7 @@ export async function signInUser(data: LoginSchema): Promise<ActionResult<string
 		if (error instanceof AuthError && error.type === 'CredentialsSignin') {
 			return { status: 'error', error: 'Invalid credentials' };
 		}
-		return { status: 'error', error: 'Unexpected error je devieng fou' };
+		return { status: 'error', error: 'Unexpected error' };
 	}
 }
 
@@ -59,11 +59,6 @@ export async function registerUser(data: RegisterSchema): Promise<ActionResult<U
 			}
 		})
 
-		await signIn('credentials', {
-			email: email,
-			password: password,
-			redirect: false,
-		});
 		return { status: 'success', data: user };
 	}	catch (error) {
 		return { status: "error", error: "Something went wrong" };

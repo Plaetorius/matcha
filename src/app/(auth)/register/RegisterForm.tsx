@@ -1,6 +1,7 @@
 "use client";
 
 import { registerUser } from "@/app/actions/authActions";
+import { signIn } from "@/auth";
 import { registerSchema, RegisterSchema } from "@/lib/schemas/RegisterSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Card, CardBody, CardHeader, Input } from "@nextui-org/react";
@@ -26,11 +27,9 @@ export default function RegisterForm() {
 	) => {
 		const result = await registerUser(data);
 
-
 		if (result.status === "success") {
 			toast.success("Successfully registered!");
 			router.push("/members");
-			router.refresh();
 		} else {
 			console.log("Error when registering");
 			if (Array.isArray(result.error)) {

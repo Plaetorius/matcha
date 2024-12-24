@@ -15,6 +15,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { signInUser } from '@/app/actions/authActions';
 import { toast } from "react-toastify";
+import { signIn } from '@/auth';
 
 export default function LoginForm() {
 	const {
@@ -31,10 +32,9 @@ export default function LoginForm() {
 		const result = await signInUser(data);
 		console.log("result SignInUser::: ", result);
 		if (result.status === "success") {
-			const event = new Event("visibilitychange");
+			const event = new Event("sessionUpdated");
 			document.dispatchEvent(event);
 			router.push("/members");
-			router.refresh();
 			toast.success("Welcome back!");
 		} else {
 			toast.error(result.error as string);

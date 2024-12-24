@@ -1,24 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React from "react";
 import { useSession } from "next-auth/react";
-
 
 export default function MembersPage() {
   const { data: session, status } = useSession();
-
-
-  useEffect(() => {
-    const handleSessionUpdate = () => {
-      console.log("Session updated. Re-rendering...");
-    };
-
-    window.addEventListener("sessionUpdated", handleSessionUpdate);
-    return () => {
-      window.removeEventListener("sessionUpdated", handleSessionUpdate);
-    };
-  }, []);
 
   if (status === 'loading') {
     return <p>Loading...</p>;
@@ -36,7 +23,7 @@ export default function MembersPage() {
   return (
     <div>
       <h3 className="text-3xl">
-        This will be the members page
+        This will be the edit member page
       </h3>
       <Link href="/">Go back home</Link>
     </div>
