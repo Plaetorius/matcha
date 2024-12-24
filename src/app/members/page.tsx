@@ -1,44 +1,19 @@
-"use client";
-
-import Link from "next/link";
-import React, { useEffect } from "react";
-import { useSession } from "next-auth/react";
+import React from "react";
+import { getMembers } from "../actions/memberActions";
+import MemberCard from "./MemberCard";
 
 
-export default function MembersPage() {
-  const { data: session, status } = useSession();
-
-
-  useEffect(() => {
-    const handleSessionUpdate = () => {
-      console.log("Session updated. Re-rendering...");
-    };
-
-    window.addEventListener("sessionUpdated", handleSessionUpdate);
-    return () => {
-      window.removeEventListener("sessionUpdated", handleSessionUpdate);
-    };
-  }, []);
-
-  if (status === 'loading') {
-    return <p>Loading...</p>;
-  }
-
-  if (status === "unauthenticated") {
-    return <p>User is not authenticated</p>;
-  }
-
-  if (status === "authenticated") {
-    console.log("User details: ", session.user);
-    return <p>Signed in as {session.user?.email}</p>;
-  }
-
+export default async function MembersPage() {
+  const members = await getMembers();
   return (
-    <div>
-      <h3 className="text-3xl">
-        This will be the members page
-      </h3>
-      <Link href="/">Go back home</Link>
+    <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl: grid-cols-6 gap-8">
+      {members &&
+        members.map((member) => (
+          <MemberCard
+            member={member}
+            key={member.id}
+          />
+        ))}      
     </div>
   );
 }
