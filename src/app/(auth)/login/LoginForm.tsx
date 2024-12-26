@@ -34,16 +34,20 @@ export default function LoginForm() {
 			redirect: false,
 		});
 
-
-		console.log("result SignInUser::: ", result);
-		if (result?.ok) {
+		if (result?.error) {
+			switch (result?.error) {
+				case 'CredentialsSignin':
+					toast.error("Invalid credentials");
+					break;
+				default:
+					toast.error("Unknown error");
+			}			
+		} else {
 			const event = new Event("sessionUpdated");
 			document.dispatchEvent(event);
 			router.push("/members");
 			router.refresh();
 			toast.success("Welcome back!");
-		} else {
-			toast.error(result?.error as string);
 		}
 	};
 
@@ -79,7 +83,7 @@ export default function LoginForm() {
 							defaultValue=''
 							label='Password'
 							variant='bordered'
-							// type='password'
+							type='password'
 							{...register("password")}
 							isInvalid={!!errors.password}
 							errorMessage={

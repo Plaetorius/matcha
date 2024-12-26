@@ -36,6 +36,7 @@ export const authConfig: NextAuthConfig = {
         if (!result.success) {
 					return null;
 				}
+
 				const { email, password } = result.data;
 				const user = await getUserByEmail(email);
 				if (!user) {

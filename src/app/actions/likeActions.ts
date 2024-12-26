@@ -25,7 +25,7 @@ export async function toggleLikeMember(targetUserId: string, isLiked: boolean) {
 			})
 		}
 	} catch (error) {
-		console.log(error);
+		console.log(error ? error : "toggleLikeMember NULL Error");
 		throw error;
 	}
 }
@@ -45,7 +45,7 @@ export async function fetchCurrentUserLikeIds() {
 
 		return likeIds.map(like => like.targetUserId);
 	} catch (error) {
-		console.log(error);
+		console.log(error ? error : "fetchCurrentUserLikeIds NULL Error");
 		throw error;
 	}
 }
@@ -65,7 +65,7 @@ export async function fetchLikedMembers(type = 'source') {
 				return [];
 		}
 	} catch (error) {
-		console.log(error);
+		console.log(error ? error : "fetchLikedMembers NULL Error");
 		throw error;
 	}
 }
