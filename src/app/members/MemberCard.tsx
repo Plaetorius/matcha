@@ -1,7 +1,7 @@
 "use client";
 
 import LikeButton from "@/components/LikeButton";
-import { calculteAge } from "@/lib/utils";
+import { calculteAge } from "@/lib/util";
 import {
 	Card,
 	CardFooter,

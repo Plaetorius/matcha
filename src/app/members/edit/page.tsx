@@ -1,31 +1,15 @@
-"use client";
+import { getAuthUserId } from "@/app/actions/authActions"
+import { getMemberByUserId } from "@/app/actions/memberActions";
+import { notFound } from "next/navigation";
+import EditProfile from "./pageClient";
 
-import Link from "next/link";
-import React from "react";
-import { useSession } from "next-auth/react";
+export default async function MemberEditPage() {
+  const userId = await getAuthUserId();
 
-export default function MembersPage() {
-  const { data: session, status } = useSession();
+  const member = await getMemberByUserId(userId);
 
-  if (status === 'loading') {
-    return <p>Loading...</p>;
-  }
+  if (!member) return notFound();
 
-  if (status === "unauthenticated") {
-    return <p>User is not authenticated</p>;
-  }
-
-  if (status === "authenticated") {
-    console.log("User details: ", session.user);
-    return <p>Signed in as {session.user?.email}</p>;
-  }
-
-  return (
-    <div>
-      <h3 className="text-3xl">
-        This will be the edit member page
-      </h3>
-      <Link href="/">Go back home</Link>
-    </div>
-  );
+  // return <div>Hello {member.name}</div>
+  return <EditProfile member={member} />
 }
