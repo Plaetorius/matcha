@@ -15,4 +15,4 @@ export const memberEditSchema = z.object({
 	})
 })
 
-export type memberEditSchema = z.infer<typeof memberEditSchema>
+export type MemberEditSchema = z.infer<typeof memberEditSchema>

@@ -1,13 +1,13 @@
 'use server';
 
-import { memberEditSchema } from "@/lib/schemas/MemberEditSchema";
+import { memberEditSchema, MemberEditSchema } from "@/lib/schemas/MemberEditSchema";
 import { ActionResult } from "@/types";
 import { Member, Photo } from "@prisma/client";
 import { getAuthUserId } from "./authActions";
 import { prisma } from "@/lib/prisma";
 import { cloudinary } from "@/lib/cloudinary";
 
-export async function updateMemberProfile(data: memberEditSchema, nameUpdated: boolean): Promise<ActionResult<Member>> {
+export async function updateMemberProfile(data: MemberEditSchema, nameUpdated: boolean): Promise<ActionResult<Member>> {
 	try {
 		const userId = await getAuthUserId();
 		const validated = memberEditSchema.safeParse(data);

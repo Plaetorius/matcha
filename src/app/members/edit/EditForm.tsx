@@ -3,6 +3,7 @@
 import { updateMemberProfile } from "@/app/actions/userActions";
 import { 
 	memberEditSchema,
+	MemberEditSchema,
 } from "@/lib/schemas/MemberEditSchema";
 import { handleFormServerErrors } from "@/lib/util";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,7 +37,7 @@ export default function EditForm({
 			isSubmitting,
 			errors,
 		},
-	} = useForm<memberEditSchema>({ // DIFF
+	} = useForm<MemberEditSchema>({
 		resolver: zodResolver(memberEditSchema),
 		mode: "onTouched",
 	});
@@ -53,7 +54,7 @@ export default function EditForm({
 	}, [member, reset]);
 
 	const onSubmit = async (
-		data: memberEditSchema
+		data: MemberEditSchema
 	) => {
 		const nameUpdated = data.name !== member.name;
 		const result = await updateMemberProfile(
