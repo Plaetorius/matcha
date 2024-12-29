@@ -1,5 +1,6 @@
 "use client";
 
+import CardInnerWrapper from "@/components/CardInnerWrapper";
 import {
 	CardBody,
 	CardHeader,
@@ -11,15 +12,6 @@ export default function pageClient({
 	member
 } : {
 	member: Member,
-
 }) {
-	return (
-		<>
-			<CardHeader className='text-2xl font-semibold text-default'>
-				Profile
-			</CardHeader>
-			<Divider />
-			<CardBody>{member.description}</CardBody>
-		</>
-	)
+	return (<CardInnerWrapper header="Profile" body={member.description} />);
 }

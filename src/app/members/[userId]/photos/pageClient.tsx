@@ -1,5 +1,6 @@
 "use client";
 
+import CardInnerWrapper from "@/components/CardInnerWrapper";
 import {
 	CardHeader,
 	Divider,
@@ -13,26 +14,21 @@ export default function PageClient({
 }: {
 	photos: Photo[] | null;
 }) {
-	return (
+	const body = (
 		<>
-			<CardHeader className="text-2xl font-semibold text-default">
-				Photos
-			</CardHeader>
-			<Divider />
-			<CardBody>
-				<div className="grid grid-cols-5 gap-3">
-					{photos &&
-						photos.map((photo) => (
-							<div key={photo.id}>
-								<Image
-									src={photo.url}
-									alt="Image of member"
-									className="object-cover aspect-square"
-								/>
-							</div>
-						))}
+			<div className="grid grid-cols-5 gap-3">
+				{photos &&
+					photos.map((photo) => (
+						<div key={photo.id}>
+							<Image
+								src={photo.url}
+								alt="Image of member"
+								className="object-cover aspect-square"
+							/>
+						</div>
+					))}
 				</div>
-			</CardBody>
-		</>
+			</>
 	)
+	return (<CardInnerWrapper header="Photos" body={body} />);
 }

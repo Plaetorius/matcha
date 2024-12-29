@@ -1,19 +1,9 @@
 "use client";
 
-import {
-	CardBody,
-	CardHeader,
-	Divider
-} from "@nextui-org/react";
+import CardInnerWrapper from "@/components/CardInnerWrapper";
 
 export default function PageClient() {
 	return (
-		<>
-			<CardHeader className="text-2xl font-semibold text-default">
-				Chat
-			</CardHeader>
-			<Divider />
-			<CardBody>Chat goes here</CardBody>
-		</>
+		<CardInnerWrapper header="Chat" body="Chat goes here" />
 	)
 }

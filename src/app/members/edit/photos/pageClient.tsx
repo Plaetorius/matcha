@@ -1,10 +1,10 @@
 "use client";
 
-import { CardBody, CardHeader, Divider } from '@nextui-org/react';
 import { Member, Photo } from '@prisma/client';
 import React from 'react'
 import MemberPhotoUpload from './MemberPhotoUpload';
 import MemberPhotos from '@/components/MemberPhotos';
+import CardInnerWrapper from '@/components/CardInnerWrapper';
 
 type Props = {
 	photos: Photo[] | null;
@@ -14,22 +14,18 @@ type Props = {
 export default function PageClient({ photos, member} : Props) {
 	// TODO maybe handle specifically !member
 
-	return (
+	const body = (
 		<>
-			<CardHeader className='flez flez-row justify-between items-center'>
-				<div className='text-2xl font-semibold text-default'>
-					Edit Profile
-				</div>
-			</CardHeader>
-			<Divider />
-			<CardBody>
-				<MemberPhotoUpload />
-				<MemberPhotos
-					photos={photos}
-					editing={true}
-					mainImageUrl={member?.image}
-				/>
-			</CardBody>
+			<MemberPhotoUpload />
+			<MemberPhotos
+				photos={photos}
+				editing={true}
+				mainImageUrl={member?.image}
+			/>
 		</>
+	);
+
+	return (
+		<CardInnerWrapper header="Edit Profile" body={body} />
 	)
 }

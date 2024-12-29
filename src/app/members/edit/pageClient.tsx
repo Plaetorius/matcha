@@ -3,6 +3,7 @@
 import { CardBody, CardHeader, Divider } from "@nextui-org/react";
 import { Member } from "@prisma/client"
 import EditForm from "./EditForm";
+import CardInnerWrapper from "@/components/CardInnerWrapper";
 
 type Props = {
 	member: Member;
@@ -11,15 +12,10 @@ type Props = {
 export default function EditProfile({
 	member,
 }: Props) {
-	return (
+	const body = (
 		<>
-			<CardHeader className="text-2xl font-semibold text-default">
-				Edit Profile
-			</CardHeader>
-			<Divider />
-			<CardBody>
-				<EditForm member={member} />
-			</CardBody>
+			<EditForm member={member} />
 		</>
 	)
+	return (<CardInnerWrapper header="Edit Profile" body={body} />)
 }
