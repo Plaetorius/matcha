@@ -14,12 +14,10 @@ import { Session } from "next-auth";
 import UserMenu from "./UserMenu";
 
 type TopNavLayoutProps = {
-	session: Session | null;
+	userInfo: { name: string | null, image: string | null } | null | undefined;
 };
 
-export default function TopNavLayout(session: TopNavLayoutProps) {
-	console.log("session::: ", session);
-	
+export default function TopNavLayout({ userInfo }: TopNavLayoutProps) {	
 	return (
 		<Navbar
 			maxWidth="full"
@@ -59,8 +57,8 @@ export default function TopNavLayout(session: TopNavLayoutProps) {
 				/>
 			</NavbarContent>
 			<NavbarContent justify="end">
-			{ session.session ? (
-				<UserMenu user={session.session.user}/>
+			{ userInfo ? (
+				<UserMenu userInfo={userInfo}/>
 			) : (
 				<>
 					<Button

@@ -13,11 +13,11 @@ import { Session } from "next-auth";
 import Link from "next/link";
 
 type UserMenuProps = {
-	user: Session["user"];
+	userInfo: { name: string | null, image: string | null } | null | undefined;
 };
 
 export default function UserMenu({
-	user
+	userInfo
 }: UserMenuProps) {
 	return (
 		<Dropdown>
@@ -27,9 +27,9 @@ export default function UserMenu({
 					as="button"
 					className="transition-transform"
 					color="secondary"
-					name={user?.name || "user avatar"}
+					name={userInfo?.name || "user avatar"}
 					size="sm"
-					src={user?.image || "/images/user.png"}
+					src={userInfo?.image || "/images/user.png"}
 				/>
 			</DropdownTrigger>
 			<DropdownMenu>
@@ -40,7 +40,7 @@ export default function UserMenu({
 						className="h-14 flex flex-row"
 						aria-label="username"
 					>
-						Signed in as {user?.name}
+						Signed in as {userInfo?.name}
 					</DropdownItem>
 				</DropdownSection>
 				<DropdownItem
