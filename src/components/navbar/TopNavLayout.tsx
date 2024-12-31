@@ -10,7 +10,6 @@ import Link from "next/link";
 import React from "react";
 import { GiSelfLove } from "react-icons/gi";
 import NavLink from "./NavLink";
-import { Session } from "next-auth";
 import UserMenu from "./UserMenu";
 
 type TopNavLayoutProps = {

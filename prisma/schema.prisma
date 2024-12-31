@@ -53,7 +53,7 @@ model Member {
   sourceLikes       Like[]  @relation("source")
   targetLikes       Like[]  @relation("target")
   senderMessages    Message[]  @relation("sender")
-  recipientMEssages Message[] @relation("recipient")
+  recipientMessages Message[] @relation("recipient")
 }
 
 model Photo {

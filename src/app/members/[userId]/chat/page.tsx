@@ -1,10 +1,10 @@
 import React from 'react'
-import PageClient from './pageClient'
 import { getMessageThread } from '@/app/actions/messageActions';
 import { getAuthUserId } from '@/app/actions/authActions';
-import MessageBox from './MessageBox';
 import CardInnerWrapper from '@/components/CardInnerWrapper';
 import ChatForm from './ChatForm';
+import MessageList from './MessageList';
+import { createChatId } from '@/lib/util';
 
 export default async function ChatPage({
 	params,
@@ -16,28 +16,20 @@ export default async function ChatPage({
 	);
 	const userId = await getAuthUserId();
 
-	const body = (
-		<div>
-			{messages.length === 0 ? (
-				"No messages to display"
-			) : (
-				<div>
-					{messages.map((message) => (
-						<MessageBox
-							key={message.id}
-							message={message}
-							currentUserId={userId}
-						/>
-					))}
-				</div>
-			)} 
-		</div>
+	const chatId = createChatId(
+		userId,
+		params.userId
 	);
 
 	return (
 		<CardInnerWrapper
 			header="Chat"
-			body={body}
+			body={<MessageList
+					initialMessages={messages}
+					currentUserId={userId}
+					chatId={chatId}
+				/>
+			}
 			footer={<ChatForm />}
 		/>	
 	);

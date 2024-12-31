@@ -24,9 +24,12 @@ import React, {
 import { AiFillDelete } from "react-icons/ai";
 import { deleteMessage } from "../actions/messageActions";
 import { truncateString } from "@/lib/util";
+import PresenceAvatar from "@/components/PresenceAvatar";
+import { useMessages } from "../hooks/useMessages";
+import MessageTableCell from "./MessageTableCell";
 
 type Props = {
-	messages: MessageDto[];
+	initialMessages: MessageDto[];
 };
 
 const outboxColumns = [
@@ -44,102 +47,16 @@ const inboxColumns = [
 ];
 
 export default function MessageTable({
-	messages,
+	initialMessages,
 }: Props) {
-	const searchParams = useSearchParams();
-	const router = useRouter();
-	const isOutBox = searchParams.get("container") === "outbox";
-
-	const [isDeleting, setDeleting] = useState({
-		id: "",
-		loading: false,
-	});
-
-	const columns = isOutBox
-		? outboxColumns
-		: inboxColumns;
-
-	const handleDeleteMessage = useCallback(
-		async (message: MessageDto) => {
-			setDeleting({
-				id: message.id,
-				loading: true,
-			});
-			await deleteMessage(message.id, isOutBox);
-			router.refresh();
-			setDeleting({ id: "", loading: false });
-		}, [isOutBox, router]
-	);
-
-	const handleRowSelect = (key: Key) => {
-		const message = messages.find(
-			(m) => m.id === key
-		);
-		const url = isOutBox
-			? `/members/${message?.recipientId}`
-			: `/members/${message?.senderId}`;
-		router.push(url + "/chat");
-	};
-
-	const renderCell = useCallback((
-		item: MessageDto,
-		columnKey: keyof MessageDto
-	) => {
-		const cellValue = item[columnKey];
-
-		switch (columnKey) {
-			case "recipientName":
-			case "senderName":
-				return (
-					<div className="flex items-center gap-2 cursor-pointer">
-						<Avatar
-							alt="Image of member"
-							src={
-								(isOutBox
-									? item.recipientImage
-									: item.senderImage) ||
-								"/images/user.png"
-							}
-						/>
-						<span>{cellValue}</span>
-					</div>
-				);
-			case "text":
-				return (
-					<div>
-						{truncateString(cellValue, 80)}
-					</div>
-				);
-			case "created":
-				return cellValue;
-			default:
-				return (
-					<Button
-						isIconOnly
-						variant="light"
-						onClick={() =>
-							handleDeleteMessage(item)
-						}
-						isLoading={
-							isDeleting.id === item.id &&
-							isDeleting.loading
-						}
-					>
-						<AiFillDelete
-							size={24}
-							className="text-danger"
-						/>
-					</Button>
-				);
-		}
-	},
-	[
+	const {
+		columns,
 		isOutBox,
-		isDeleting.id,
-		isDeleting.loading,
-		handleDeleteMessage,
-	]
-	);
+		isDeleting,
+		deleteMessage,
+		selectRow,
+		// messages,
+	} = useMessages(initialMessages);
 
 	return (
 		<Card className="flex flex-col gap-3 h-[80vh] overflow-auto">
@@ -147,11 +64,11 @@ export default function MessageTable({
 				aria-label="Table with messages"
 				selectionMode="single"
 				onRowAction={(key) =>
-					handleRowSelect(key)
+					selectRow(key)
 				}
 				shadow="none"
 			>
-				<TableHeader columns={columns}>
+				{/* <TableHeader columns={columns}>
 					{(column) => (
 						<TableColumn
 							key={column.key}
@@ -164,8 +81,8 @@ export default function MessageTable({
 							{column.label}
 						</TableColumn>
 					)}
-				</TableHeader>
-				<TableBody
+				</TableHeader> */}
+				{/* <TableBody
 					items={messages}
 					emptyContent="No messages for this container!"
 				>
@@ -182,15 +99,23 @@ export default function MessageTable({
 											: ""
 									}`}
 								>
-									{renderCell(
-										item,
-										columnKey as keyof MessageDto
-									)}
+									<MessageTableCell
+										item={item}
+										columnKey={
+											columnKey as string
+										}
+										isOutbox={isOutBox}
+										deleteMessage={deleteMessage}
+										isDeleting={
+											isDeleting.loading &&
+											isDeleting.id === item.id
+										}
+									/>
 								</TableCell>
 							)}
 						</TableRow>
 					)}
-				</TableBody>
+				</TableBody> */}
 			</Table>
 		</Card>
 	);

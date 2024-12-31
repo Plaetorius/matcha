@@ -1,5 +1,6 @@
 "use client";
 
+import PresenceDot from "@/components/PresenceDot";
 import { calculteAge } from "@/lib/util";
 import { 
 	Button,
@@ -39,6 +40,9 @@ export default function MemberSidebar({
 					<div className="text-2xl">
 						{member.name}, {" "}
 						{calculteAge(member.dateOfBirth)}
+					</div>
+					<div>
+						<PresenceDot member={member} />
 					</div>
 					<div className="text-sm text-neutral-500">
 						{member.city}, {member.country}
